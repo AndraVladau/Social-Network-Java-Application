@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.social.socialnetwork.Controller.EditPrieteniController">
+   <children>
+      <GridPane layoutX="183.0" layoutY="110.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="ID Utilizator 1" GridPane.halignment="CENTER" />
+            <Label text="ID Utilizator 2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <TextField fx:id="idUtilizator1" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="idUtilizator2" promptText="ID Viitor Prieten" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="saveButton" onAction="#handlerSave" alignment="CENTER" mnemonicParsing="false" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Button fx:id="cancelButton" onAction="#handlerCancel" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="utilizatoriComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
