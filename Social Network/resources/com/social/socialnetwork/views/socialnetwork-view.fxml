@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.social.socialnetwork.Controller.SocialNetworkController">
+   <children>
+      <VBox layoutX="222.0" layoutY="69.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <SplitPane dividerPositions="0.5083752093802345, 0.6013400335008374" orientation="VERTICAL">
+              <items>
+                  <HBox fx:id="hBoxTables" prefHeight="270.0" prefWidth="322.0">
+                     <children>
+                         <TableView fx:id="utilizatorTableView" prefHeight="270.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                             <columns>
+                                 <TableColumn fx:id="columnID" prefWidth="50.0" text="ID" />
+                                 <TableColumn fx:id="columnFirstName" minWidth="0.0" prefWidth="154.6000099182129" text="Prenume" />
+                                 <TableColumn fx:id="columnLastName" minWidth="0.0" prefWidth="153.40003967285156" text="Nume" />
+                              <TableColumn fx:id="columnUsername" prefWidth="320.1999816894531" text="Username" />
+                             </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                         </TableView>
+                     </children>
+                  </HBox>
+                  <ButtonBar prefHeight="41.0" prefWidth="599.0">
+                    <buttons>
+                      <Button fx:id="previousButton" mnemonicParsing="false" onAction="#goToPreviousPage" text="Previous" />
+                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goToNextPage" text="Next" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutY="6.0" prefHeight="17.0" prefWidth="82.0" text="Users on page" />
+                              <ScrollBar fx:id="numberOfElements" layoutX="82.0" layoutY="7.0" max="7.0" min="1.0" onMouseReleased="#handleNumberOfElementsOnPage" />
+                           </children>
+                        </AnchorPane>
+                    </buttons>
+                  </ButtonBar>
+                  <HBox prefHeight="78.0" prefWidth="562.0">
+                     <children>
+                        <ButtonBar prefHeight="96.0" prefWidth="276.0">
+                          <buttons>
+                              <Button mnemonicParsing="false" onAction="#handleDeleteUtilizator" style="-fx-background-color: #d6ec84;" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#handleUpdateUtilizator" style="-fx-background-color: #d6ec84;" text="Update" />
+                            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleAddUtilizator" style="-fx-background-color: #d6ec84;" text="Add" />
+                          </buttons>
+                        </ButtonBar>
+                        <ButtonBar prefHeight="110.0" prefWidth="291.0">
+                           <buttons>
+                              <Button fx:id="loginUser" mnemonicParsing="false" onAction="#handleLoginUser" prefHeight="25.0" prefWidth="154.0" style="-fx-background-color: #d6ec84;" text="Login as User" />
+                           </buttons>
+                        </ButtonBar>
+                     </children>
+                  </HBox>
+              </items>
+            </SplitPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

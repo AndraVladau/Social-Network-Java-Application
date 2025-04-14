@@ -1,0 +1,157 @@
+CREATE TABLE Utilizatori(
+IDUser BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+FirstName CHARACTER VARYING NOT NULL,
+LastName CHARACTER VARYING,
+Username CHARACTER VARYING,
+Password CHARACTER VARYING
+);
+
+
+CREATE TABLE Prietenii(
+iduser1 BIGINT,
+iduser2 BIGINT,
+CONSTRAINT pk_users PRIMARY KEY (iduser1, iduser2),
+CONSTRAINT fk_users1 FOREIGN KEY (iduser1) REFERENCES Utilizatori(iduser) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_users2 FOREIGN KEY (iduser2) REFERENCES Utilizatori(iduser) ON UPDATE CASCADE ON DELETE CASCADE,
+datecreated TIMESTAMP
+);
+
+
+CREATE TABLE Mesaje(
+idmesaj BIGINT PRIMARY KEY  GENERATED ALWAYS AS IDENTITY,
+idSender BIGINT NOT NULL,
+CONSTRAINT fk_sender FOREIGN KEY (idSender) REFERENCES Utilizatori(iduser) ON UPDATE CASCADE ON DELETE CASCADE,
+mesaj CHARACTER VARYING NOT NULL,
+dateSend TIMESTAMP
+);
+
+CREATE TABLE Destinatari(
+idmesaj BIGINT,
+idUser BIGINT,
+CONSTRAINT pf_destinatari PRIMARY KEY (idmesaj, idUser),
+CONSTRAINT fk_mesaj FOREIGN KEY (idmesaj) REFERENCES Mesaje(idmesaj) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_idUser FOREIGN KEY (idUser) REFERENCES Utilizatori(idUser) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+SELECT * FROM Utilizatori;
+
+INSERT INTO Mesaje(idSender, mesaj, dateSend) VALUES
+(13, 'reply to valentin', now()::timestamp);
+--(12, 'Mesja 2', now()::timestamp);
+INSERT INTO Destinatari(idmesaj, idUser) VALUES
+(3, 12);
+--(1, 14),
+--(2, 12);
+
+SELECT * FROM Mesaje;
+
+SELECT * FROM Destinatari;
+
+SELECT Utilizatori.*, U.*, M.mesaj FROM Utilizatori
+INNER JOIN Mesaje M on Utilizatori.IDUser = M.idSender
+INNER JOIN Destinatari D on M.idmesaj = D.idmesaj
+INNER JOIN Utilizatori U on U.IDUser = D.idUser;
+
+CREATE TABLE ReplyMesaje(
+idmesaj1 BIGINT NOT NULL,
+idmesaj2 BIGINT NOT NULL,
+CONSTRAINT pf_reply PRIMARY KEY (idmesaj1, idmesaj2),
+CONSTRAINT fk_mesaj FOREIGN KEY (idmesaj1) REFERENCES Mesaje(idmesaj) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_idUser FOREIGN KEY (idmesaj2) REFERENCES Mesaje(idmesaj) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+SELECT * FROM ReplyMesaje R
+INNER JOIN Mesaje M on R.idmesajinitial = M.idmesaj
+INNER JOIN Mesaje M2 on M2.idmesaj = R.idmesajreply;
+
+INSERT INTO ReplyMesaje(idmesajinitial, idmesajreply) VALUES
+(1, 3);
+
+ALTER TABLE ReplyMesaje
+RENAME COLUMN idmesaj1 TO idmesajinitial;
+
+SELECT * FROM ReplyMesaje;
+
+ALTER TABLE ReplyMesaje
+RENAME COLUMN idmesaj2 TO idmesajreply;
+
+SELECT * FROM mesaje M INNER JOIN destinatari D ON M.idmesaj = D.idmesaj WHERE M.idmesaj = 1 ;
+
+INSERT INTO Utilizatori(FirstName, LastName) VALUES
+('CEVA', 'ALTCV') RETURNING IDUser;
+
+
+SELECT * FROM Mesaje;
+
+DELETE FROM Mesaje WHERE idmesaj > 11;
+
+
+SELECT * FROM Utilizatori;
+
+SELECT * FROM Destinatari;
+
+SELECT * FROM ReplyMesaje;
+
+SELECT * FROM Mesaje
+INNER JOIN Destinatari D on Mesaje.idmesaj = D.idmesaj;
+
+SELECT * FROM Mesaje
+INNER JOIN ReplyMesaje RM on Mesaje.idmesaj = RM.idmesajinitial
+INNER JOIN Mesaje M ON M.idmesaj = RM.idmesajreply;
+
+SELECT * FROM Mesaje M
+INNER JOIN Destinatari D on M.idmesaj = D.idmesaj
+WHERE (M.idSender = 9 AND D.idUser = 12) OR (M.idSender = 12 AND D.idUser = 9);
+
+CREATE TABLE CereriPrietenie(
+iduser1 BIGINT,
+iduser2 BIGINT,
+CONSTRAINT pk_user PRIMARY KEY (iduser1, iduser2),
+CONSTRAINT fk_user1 FOREIGN KEY (iduser1) REFERENCES Utilizatori(iduser) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_user2 FOREIGN KEY (iduser2) REFERENCES Utilizatori(iduser) ON UPDATE CASCADE ON DELETE CASCADE,
+datecreated TIMESTAMP,
+stare_cerere INT
+--aici starea e 0 daca e pending, 1 daca e accepted si 2 daca e refuzata
+);
+
+SELECT * FROM CereriPrietenie WHERE datecreated is NULL;
+
+select * from Utilizatori;
+
+INSERT INTO CereriPrietenie(iduser1, iduser2, datecreated, stare_cerere) VALUES
+(9, 12, now()::timestamp, 0);
+SELECT * FROM CereriPrietenie;
+
+INSERT INTO CereriPrietenie(iduser1, iduser2, datecreated, stare_cerere) VALUES (10, 12, null, 0);
+
+UPDATE CereriPrietenie SET datecreated = now()::timestamp, stare_cerere = 1 WHERE iduser1 = 10 AND iduser2 = 12;
+
+DELETE FROM CereriPrietenie WHERE iduser1 = 10;
+
+SELECT * FROM ReplyMesaje;
+
+DROP TABLE utilizatori;
+DROP TABLE prietenii;
+
+INSERT INTO Utilizatori(FirstName, LastName, username, password) VALUES
+('Anya', 'M', 'anya75', 'abcdefg'),
+('Reg', 'B', 'reg57', 'bcdefgh'),
+('Evan', 'R', 'evanR12', 'cdefghi'),
+('Dora', 'R', 'dora125', 'defghij'),
+('Barty', 'C', 'barty21C', 'efghijk'),
+('Cas', 'M', 'casM4', 'fghijklm'),
+('Tom', 'R', 'tom31','ghijklmn');
+
+SELECT * FROM Utilizatori;
+SELECT * FROM Prietenii;
+SELECT * FROM Mesaje;
+SELECT * FROM ReplyMesaje;
+SELECT * FROM CereriPrietenie;
+SELECT * FROM Destinatari;
+
+DROP TABLE ReplyMesaje;
+DROP TABLE Destinatari;
+DROP TABLE Mesaje;
+DROP TABLE CereriPrietenie;
+DROP TABLE Prietenii;
+DROP TABLE Utilizatori;
